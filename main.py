@@ -4,7 +4,9 @@ import uvicorn
 import logging
 
 from models.usuarios import Usuario
-from controllers.usuarios import create_usuario
+from models.login import Login
+from controllers.usuarios import create_usuario, login
+
 
 app = FastAPI()
 
@@ -24,6 +26,11 @@ async def creacionUsuario(usuario : Usuario ) -> Usuario:
     finally: 
         logger.info("Intento de creacion de usuario")
     
+
+@app.post("/login")
+async def login_access(l: Login) -> dict:
+    return login(l)
+
 
 @app.get("/usuario/{tarea}")
 async def tarea(tarea): 
