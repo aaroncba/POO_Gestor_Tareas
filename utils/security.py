@@ -25,7 +25,7 @@ def create_jwt_token(
         , admin: bool
         , id: str
 ):
-    expiration = datetime.utcnow() + timedelta(hours=1)  # El token expira en 1 hora
+    expiration = datetime.utcnow() + timedelta(hours=10)  # El token expira en 1 hora
     token = jwt.encode(
         {
             "id": id,
