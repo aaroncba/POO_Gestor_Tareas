@@ -16,6 +16,24 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 security = HTTPBearer()
 
+
+
+#borrar luego
+
+def verify_bearer_token(token: str):
+    """Verify if a Bearer token is valid and not expired."""
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        exp = payload.get("exp")
+
+        if not exp or datetime.utcfromtimestamp(exp) < datetime.utcnow():
+            raise HTTPException(status_code=401, detail="Expired token")
+
+        return payload
+
+    except PyJWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
 # Función para crear un JWT
 def create_jwt_token(
         nombre:str
